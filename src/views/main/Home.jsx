@@ -31,7 +31,7 @@ const Home = () => {
   });
 
   return (
-    <NativeBaseProvider>
+    <NativeBaseProvider style={{height:'100%',width:"100%"}}>
       <View style={styles.container}>
         <View style={styles.rectangle1}>
           <View
@@ -276,18 +276,19 @@ const styles = StyleSheet.create({
     height: "100%",
     width: "100%",
     alignItems: "center",
+    justifyContent:"flex-start"
   },
   circle: {
     position: "absolute",
-    height: 600,
-    width: 600,
+    height: '90%',
+    width: '158%',
     borderRadius: 300,
     backgroundColor: "#3fb950",
     top: "-64%",
     flexDirection: "row",
     justifyContent: "space-evenly",
     alignItems: "flex-end",
-    paddingBottom: "19%",
+    paddingBottom: "14%",
     zIndex: 2,
     gap: 70,
   },

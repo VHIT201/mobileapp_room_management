@@ -22,7 +22,7 @@ const Login = ({navigation}) => {
     });
     
   return (
-    <NativeBaseProvider>
+    <NativeBaseProvider style={{height:"100%",width:'100%'}}>
     <View style={styles.container}>
     
       <View style={styles.top}>
@@ -79,8 +79,8 @@ export default Login
 
 const styles = StyleSheet.create({
     container:{
-        height:height,
-        width:width,
+        height:'100%',
+        width:'100%',
         backgroundColor:"#30363d",
         paddingLeft:20,
         paddingRight:20

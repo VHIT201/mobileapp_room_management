@@ -7,6 +7,8 @@ import {
   StatusBar,
   TextInput,
   Image,
+  ScrollView,
+  FlatList
 } from "react-native";
 import React from "react";
 import { useFonts } from "expo-font";
@@ -22,7 +24,27 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 
+//import data
+import dataBoaringHouse from "../../seeder/dataBoardingHouse/dataBoardingHouse";
+
 const Areas = () => {
+  const countsMap = {};
+  dataBoaringHouse.forEach((item) => {
+    const { "province/city": province } = item;
+    if (countsMap[province]) {
+      countsMap[province] += 1;
+    } else {
+      countsMap[province] = 1;
+    }
+  });
+  
+  const filteredDataProvince = Object.entries(countsMap).map(([province, count]) => ({
+    province,
+    count,
+  }));
+  
+  console.log(filteredDataProvince);
+
   const [fontsLoaded] = useFonts({
     openSansLight: require("../../assets/fonts/OpenSans-Light.ttf"),
     openSansMedium: require("../../assets/fonts/OpenSans-Medium.ttf"),
@@ -30,6 +52,8 @@ const Areas = () => {
     openSansItalic: require("../../assets/fonts/OpenSans-Italic.ttf"),
     openSansRegular: require("../../assets/fonts/OpenSans-Regular.ttf"),
   });
+  
+  // console.log(dataBoaringHouse)
   return (
     <NativeBaseProvider>
     <View style={styles.container}>
@@ -45,6 +69,46 @@ const Areas = () => {
           </TouchableOpacity>
         </View>
       </View>
+        {/* endheader */}
+      
+    <ScrollView style={styles.body}>
+
+
+    {filteredDataProvince.map(item =>{
+      return(
+
+        <View style={styles.areaBox}>
+        
+        <Text style={{fontSize:14,color:'white',fontWeight:'600',marginBottom:20}}>{item.province} ( {item.count} )</Text>
+      
+        <View style={styles.btnContainer}>
+        {dataBoaringHouse.map((boardingHouse, index) => {
+          if (boardingHouse['province/city'] === item.province) {
+            return (
+              <TouchableOpacity style={styles.btn} key={boardingHouse.id}>
+                {/* <Text style={{ color: 'white', fontWeight: 'bold' }}>{boardingHouse.name}</Text> */}
+                <Image  style={{height:'40%',width:'50%'}}
+                source={require('../../assets/logos/house.png')}>
+
+                </Image>
+                <Text style={{textAlign:"center",fontWeight:'600',color:"#3fb950"}}>{boardingHouse.name}</Text>
+                <Text>Hello world</Text>
+              </TouchableOpacity>
+            );
+          }
+        })}
+      </View>
+        
+       
+      </View>
+
+      )
+    })}
+
+
+      
+    </ScrollView>
+
     </View>
     </NativeBaseProvider>
   )
@@ -69,5 +133,47 @@ const styles = StyleSheet.create({
   },
   text:{
     fontFamily:'openSansBold'
-  }
+  },
+  body:{
+    flex:1,
+    width:'100%',
+    paddingLeft:'1%',
+    paddingRight:'1%',
+    paddingTop:'2%',
+    paddingBottom:'2%'
+  },
+  areaBox:{
+    width:'100%',
+    paddingBottom:20,
+    paddingLeft:20,
+    paddingRight:20,
+    paddingTop:10,
+
+
+  },
+  btn: {
+    height: 200,
+    width: '48%',
+    backgroundColor: '#30363d', 
+    borderRadius: 10,
+    elevation: 5,
+    justifyContent:'center',
+    alignItems:"center",
+    padding:10,
+    gap:10,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 10
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 10,
+    marginBottom:20
+  },
+  btnContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    
+  },
 })
