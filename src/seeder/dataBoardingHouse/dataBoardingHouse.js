@@ -1414,7 +1414,7 @@ const dataBoaringHouse = [
         'floor':2,
         'rentalCosts':'2.5tr-7tr',
         'describe':'',
-        'address':'số 38, đường 904',
+        'address':'38, đường 904',
         'province/city':'Thủ Đức',
         'district':'Phường Hiệp Phú',
         'open':'6am',
@@ -2829,7 +2829,7 @@ const dataBoaringHouse = [
         'floor':2,
         'rentalCosts':'2.5tr-7tr',
         'describe':'',
-        'address':'đường Tân Hoà 2',
+        'address':'Đường Tân Hoà 2',
         'province/city':'Thủ Đức',
         'district':'Phường Hiệp Phú',
         'open':'6am',
@@ -3067,60 +3067,7 @@ const dataBoaringHouse = [
     },
     //SECTION - Kết thúc khu 38
 
-    // //SECTION - bắt đầu khu 38A
-    // {
-    //     'name':'Khu trọ Tân Vạn - Bình Dương',
-    //     'floor':1,
-    //     'rentalCosts':'1.5tr-5tr',
-    //     'describe':'',
-    //     'address':'Tân Van - Bình Dương',
-    //     'province/city':'Bình Dương',
-    //     'district':'Dĩ An',
-    //     'open':'6am',
-    //     'closed':'23am',
-    //     'paymentDeadlineDate':5,
-    //     'numberOfDaysNoticeBeforeMoving':15,
-    //     'roomPaymentTime':[
-            
-    //     ],
-    //     'buildingManager':[
-    //         {
-    //             'name':'Phạm Văn Hoàng',
-    //             'phoneNumber':'0382823786',
-    //             'avatarUrl':"https://tienganhdanang.edu.vn/wp-content/uploads/2023/06/anh-trai-dep-20023456-wap1022b252842529.jpg"
-    //         } 
-    //     ],
-    //     'extraServicesFee-based':[
-
-    //     ],
-
-    //     'area':[
-    //         {
-    //             'name':'20',
-    //             'room code':'2H-20',
-    //             'expectedRoomPrice':'1.5m',
-    //             'floor':1,
-    //             'numberOfBedrooms':1,
-    //             'numberOfLivingRooms':1,
-    //             'acreage':25,
-    //             'limitedNumberOfTenants':4,
-    //             'deposit':'1.5m',
-    //             'service':"",
-    //             'pictures':[
-
-    //             ],
-    //             'roomAmenities':[
-
-    //             ],
-    //             'roomDescription':"",
-    //             'note':"",
-    //             'state': 'currently renting'
-    //         },
-    //     ]
-
-
-    // },
-    // //SECTION - Kết thúc khu 38A
+   
 
      
 ]

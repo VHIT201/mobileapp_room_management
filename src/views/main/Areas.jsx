@@ -10,7 +10,8 @@ import {
   ScrollView,
   FlatList
 } from "react-native";
-import React from "react";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useState } from "react";
 import { useFonts } from "expo-font";
 import { Icon, Center, HStack, NativeBaseProvider } from "native-base";
 import {
@@ -27,7 +28,9 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 //import data
 import dataBoaringHouse from "../../seeder/dataBoardingHouse/dataBoardingHouse";
 
-const Areas = () => {
+const Areas = ({navigation}) => {
+
+  const [selectedBoardingHouse, setSelectedBoardingHouse] = useState(null);
   const countsMap = {};
   dataBoaringHouse.forEach((item) => {
     const { "province/city": province } = item;
@@ -43,7 +46,7 @@ const Areas = () => {
     count,
   }));
   
-  console.log(filteredDataProvince);
+  // console.log(filteredDataProvince);
 
   const [fontsLoaded] = useFonts({
     openSansLight: require("../../assets/fonts/OpenSans-Light.ttf"),
@@ -52,6 +55,14 @@ const Areas = () => {
     openSansItalic: require("../../assets/fonts/OpenSans-Italic.ttf"),
     openSansRegular: require("../../assets/fonts/OpenSans-Regular.ttf"),
   });
+
+  const handlePressBoardingHouse = (boardingHouse) => {
+      setSelectedBoardingHouse(boardingHouse);
+
+      //Lưu xuống AsyncStorage
+      AsyncStorage.setItem('selectedBoardingHouse',JSON.stringify(boardingHouse));
+      navigation.navigate('BoardingHouse')
+  }
   
   // console.log(dataBoaringHouse)
   return (
@@ -85,14 +96,14 @@ const Areas = () => {
         {dataBoaringHouse.map((boardingHouse, index) => {
           if (boardingHouse['province/city'] === item.province) {
             return (
-              <TouchableOpacity style={styles.btn} key={boardingHouse.id}>
+              <TouchableOpacity onPress={()=>handlePressBoardingHouse(boardingHouse.name)}  style={styles.btn} key={boardingHouse.id}>
                 {/* <Text style={{ color: 'white', fontWeight: 'bold' }}>{boardingHouse.name}</Text> */}
-                <Image  style={{height:'40%',width:'50%'}}
+                <Image  style={{height:'30%',width:'40%'}}
                 source={require('../../assets/logos/house.png')}>
 
                 </Image>
-                <Text style={{textAlign:"center",fontWeight:'600',color:"#3fb950"}}>{boardingHouse.name}</Text>
-                <Text>Hello world</Text>
+                <Text style={{textAlign:"center",fontWeight:'600',color:"#3fb950",fontFamily:'openSansBold'}}>{boardingHouse.name}</Text>
+                <Text style={{textAlign:'center',color:"#f0f6fc",fontSize:10,fontFamily:'openSansBold'}}>{boardingHouse.address + ' ' + boardingHouse.district}</Text>
               </TouchableOpacity>
             );
           }
@@ -129,7 +140,9 @@ const styles = StyleSheet.create({
     flexDirection:"row",
    
     alignItems:"center",
-    elevation:1
+    elevation:1,
+    borderBottomWidth:0.4,
+    borderBottomColor:'#1F2937'
   },
   text:{
     fontFamily:'openSansBold'

@@ -7,7 +7,7 @@ import { SSRProvider } from '@react-aria/ssr';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Register from './Register';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 StatusBar.setBackgroundColor('#3fb950')
 const { height, width } = Dimensions.get('window');

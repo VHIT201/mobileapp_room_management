@@ -14,7 +14,7 @@ import Areas from './src/views/main/Areas';
 import Manage from './src/views/main/Manage';
 import Notification from './src/views/main/Notification';
 import RE from './src/views/main/R&E';
-
+import BoardingHouse from './src/views/main/InformationAreas/BoardingHouse';
 export default function App() {
   const Stack = createNativeStackNavigator();
   const Tab = createBottomTabNavigator();
@@ -60,6 +60,7 @@ export default function App() {
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="MainTabNavigator" component={MainTabNavigator} />
+        <Stack.Screen name="BoardingHouse" component={BoardingHouse} />
       </Stack.Navigator>
     </NavigationContainer>
   );
