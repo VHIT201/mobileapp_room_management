@@ -28,6 +28,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 //import data
 import dataBoaringHouse from "../../seeder/dataBoardingHouse/dataBoardingHouse";
 
+
+
 const Areas = ({navigation}) => {
 
   const [selectedBoardingHouse, setSelectedBoardingHouse] = useState(null);
@@ -65,6 +67,8 @@ const Areas = ({navigation}) => {
   }
   
   // console.log(dataBoaringHouse)
+
+  
   return (
     <NativeBaseProvider>
     <View style={styles.container}>

@@ -20,63 +20,96 @@ import {
   AntDesign,
   Entypo,
   MaterialIcons,
+  FontAwesome6,
+  FontAwesome5
 } from "@expo/vector-icons";
 
 import { SSRProvider } from "@react-aria/ssr";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
+//import data
 import dataBoaringHouse from "../../../seeder/dataBoardingHouse/dataBoardingHouse";
+import tanvandata from "../../../seeder/dataBoardingHouse/tanvandata";
+import khu38data from "../../../seeder/dataBoardingHouse/khu38data";
+import khu38adata from "../../../seeder/khu38a";
+import khukiosdata from "../../../seeder/dataBoardingHouse/kiosdata";
 
 const BoardingHouse = ({navigation}) => {
 
 //useState
+const [selectedRoom, setSelectedRoom] = useState(null);
 const [headerButtonAct, setheaderButtonAct] = useState(true)
-  const [roomData, setRoomData] = useState();
-  const [boardingHouse, setBoardingHouse] = useState(null);
-  const countsMap = {}
+  const [roomData, setRoomData] = useState([]);
+  const [boardingHouse, setBoardingHouse] = useState('');
+  // const countsMap = {}
 
+  
 
  
   //SECTION -  hàm lấy giá trị tên khu
+ 
   useEffect(() => {
     const getBoardingHouse = async () => {
       try {
-        const boardingHouseString = await AsyncStorage.getItem(
-          'selectedBoardingHouse'
-        );
-  
-        setBoardingHouse(JSON.parse(boardingHouseString));
+        const boardingHouseString = await AsyncStorage.getItem('selectedBoardingHouse');
+        setBoardingHouse(boardingHouseString.slice(1,-1));
       } catch (e) {
-        console.log('Có lỗi : ' + e);
+        console.log('Có lỗi: ' + e);
       }
     };
   
     getBoardingHouse();
-    findData(boardingHouse);
-    
-  
   }, []);
+// console.log(boardingHouse);
 
-//Ham tim data
-const findData = (name)=>{
-  for(let i = 0; i<dataBoaringHouse.length;i++){
-    if(dataBoaringHouse[i].name === name){
-      setRoomData(dataBoaringHouse[i].area);
-  }
-}
-}
-
-//Ham chay tim data
 useEffect(() => {
-  if (boardingHouse) {
-    findData(boardingHouse);
-    console.log(boardingHouse);
-  }
+  getData(boardingHouse);
 }, [boardingHouse]);
 
+    const getData = (boardingHouse) => {
+      if(boardingHouse === 'Khu trọ 38A'){
+        setRoomData(khu38adata.area)
+        console.log('Lấy data '+boardingHouse + ' thành công')
+      }
+      if(boardingHouse === 'Khu trọ 38'){
+        setRoomData(khu38data.area)
+        console.log('Lấy data '+boardingHouse + ' thành công')
+      }
+      if(boardingHouse === 'Khu trọ Tân Vạn - Bình Dương'){
+        setRoomData(tanvandata.area)
+        console.log('Lấy data '+boardingHouse + ' thành công')
+      }
+      if(boardingHouse === 'Khu Kios'){
+        setRoomData(khukiosdata.area)
+        console.log('Lấy data '+boardingHouse + ' thành công')
+      }
+    } 
+    
+  
+    const countsFloor = {};
+    roomData.forEach((item) => {
+      const { "floor": floor } = item;
+      if (countsFloor[floor]) {
+        countsFloor[floor] += 1;
+      } else {
+        countsFloor[floor] = 1;
+      }
+    });
+    
+    const filteredDatafloor = Object.entries(countsFloor).map(([floor, count]) => ({
+      floor,
+      count,
+    }));
+    
+    
 
-
-
+//Xử lý format
+    const formatPrice = (price) => {
+      const numericPrice = parseFloat(price.replace('m', ''));
+      const formattedPrice = numericPrice * 1000000;
+      return formattedPrice.toLocaleString("vi-VN") + "đ";
+    };
 
 
 //hàm nhấn nút
@@ -93,6 +126,15 @@ const handlePressBackButton = async () => {
   navigation.goBack();
 }
 //hàm nhấn nút
+
+const handlePressRoom = (roomName) => {
+  setSelectedRoom(roomName);
+
+  //Lưu xuống AsyncStorage
+  AsyncStorage.setItem('setSelectedRoom',JSON.stringify(roomName));
+  navigation.navigate('Room')
+}
+
 
   return (
     <NativeBaseProvider>
@@ -163,7 +205,57 @@ const handlePressBackButton = async () => {
         </View>
 
         <View style={styles.body_ListRoom}>
-          
+          <ScrollView style={{width:'100%',marginTop:10}}>
+          {/* {filteredDatafloor.map(item =>{
+      return( */}
+
+        <View style={styles.areaBox}>
+        
+      
+        <View style={styles.btnContainer}>
+          {roomData.map((room, index) => {
+            return (
+              <TouchableOpacity onPress={()=>handlePressRoom(room.name)}  style={styles.btn}>
+              <View style={{height:"20%",width:"20%",position:"absolute",top:0,right:"6%",justifyContent:"center",alignItems:"center"}}>
+              <Image
+  style={{ height: '100%', width: '100%', resizeMode: 'contain' }}
+  source={room.state === 'empty' ? require('../../../assets/logos/empty.png') : require('../../../assets/logos/rent.png')}
+/>
+              </View>
+                {/* <Text style={{ color: 'white', fontWeight: 'bold' }}>{boardingHouse.name}</Text> */}
+                <Image  style={{height:'40%',width:'40%'}}
+                source={require('../../../assets/logos/house.png')}>
+
+                </Image>
+                <Text style={{textAlign:"center",fontWeight:'600',color:"#3fb950",fontFamily:'openSansBold'}}>{room.name}</Text>
+                <Text style={{textAlign:'center',color:"#f0f6fc",fontSize:10,fontFamily:'openSansBold'}}>{formatPrice(room.expectedRoomPrice)}</Text>
+                <View style={styles.infoRoom}>
+                  <View style={{flexDirection:"row", justifyContent:"center",alignItems:"center",gap:4}}>
+                  <Icon as={MaterialIcons} name='people-alt' color={'#9CA3AF'} size={'xs'}/>
+                  <Text style={{color:"#9CA3AF",fontFamily:'openSansBold',fontSize:12}}>{room.state === "currently renting"? 4:0}</Text>
+                  </View>
+                  <View style={{flexDirection:"row", justifyContent:"center",alignItems:"center",gap:4}}>
+                  <Icon as={FontAwesome5} name='money-bill' color={'#9CA3AF'} size={'xs'}/>
+                  <Text style={{color:"#9CA3AF",fontFamily:'openSansBold',fontSize:12}}>0</Text>
+                  </View>
+                  <View style={{flexDirection:"row", justifyContent:"center",alignItems:"center",gap:4}}>
+                  <Icon as={MaterialIcons} name='dangerous' color={'#9CA3AF'} size={'xs'}/>
+                  <Text style={{color:"#9CA3AF",fontFamily:'openSansBold',fontSize:12}}>0</Text>
+                  </View>
+                </View>
+              </TouchableOpacity>
+            );
+        })}
+        </View>
+        
+       
+      </View>
+
+      {/* )
+    })} */}
+          </ScrollView>
+
+
         </View>
 
 
@@ -252,7 +344,9 @@ const styles = StyleSheet.create({
     flex:1,
     width:"100%",
     justifyContent: 'center',
-    alignItems:'center'
+    alignItems:'center',
+    marginTop:10,
+    marginBottom:4
   },
   btn: {
     height: 180,
@@ -271,7 +365,8 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.5,
     shadowRadius: 10,
-    marginBottom:20
+    marginBottom:20,
+    position:"relative"
   },
   
   btnContainer: {
@@ -280,4 +375,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     
   },
+  infoRoom:{
+    height:'15%',
+    width:"100%",
+    flexDirection:'row',
+    alignItems:"center",
+    justifyContent:"space-evenly"
+  }
 })
