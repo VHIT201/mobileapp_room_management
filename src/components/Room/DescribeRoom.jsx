@@ -81,7 +81,7 @@ const formatPrice = (price) => {
     <View style={styles.container}>
       <ScrollView  indicatorStyle="#DC2626" style={{width:"100%",height:'100%'}}>
         <View style={{width:'100%',justifyContent:"center",alignItems:"flex-start",marginTop:20,marginBottom:20}}>
-            <Text style={[styles.textBold,{color:'#f0f6fc'}]}></Text>
+            <Text style={[styles.textBold,{color:'#f0f6fc'}]}>Giá {expectedRoomPrice}</Text>
 
             <View style={styles.mainInfo}>
                 <Text style={[styles.textBold,{color:'#f0f6fc',fontSize:16}]}>{expectedRoomPrice}</Text>

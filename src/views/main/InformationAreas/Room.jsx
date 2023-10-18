@@ -44,7 +44,7 @@ import BoardingHouse from "./BoardingHouse";
   const Room = ({navigation}) => {
   
   //useState
-  const [selectedRoom, setSelectedRoom] = useState(null);
+  const [selectedRoom, setSelectedRoom] = useState('');
   const [headerButtonAct, setheaderButtonAct] = useState(true)
   const [boardingHouse, setBoardingHouse] = useState('');
     const [roomData, setRoomData] = useState([]);
@@ -80,6 +80,7 @@ import BoardingHouse from "./BoardingHouse";
             if(tanvanRoom.name == selectedRoom){
               setRoomData(tanvanRoom)
               console.log('Lấy data '+selectedRoom + ' thành công')
+
             }
           }
           
@@ -106,17 +107,16 @@ import BoardingHouse from "./BoardingHouse";
         }
         if(boardingHouse == 'Khu Kios'){
           for(let i = 0; i< khukiosdata.length; i++){
-            
+            console.log('hi ' + khukiosdata[i].name);
             if(khukiosdata[i].name == selectedRoom){
+              
               setRoomData(khukiosdata[i])
               
             }
           }
           console.log('Lấy data '+selectedRoom + ' thành công')
         }
-        else{
-          console.log('Không chạy')
-        }
+        
         
       }
    

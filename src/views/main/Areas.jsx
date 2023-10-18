@@ -89,18 +89,18 @@ const Areas = ({navigation}) => {
     <ScrollView style={styles.body}>
 
 
-    {filteredDataProvince.map(item =>{
+    {filteredDataProvince.map((item,key) =>{
       return(
 
         <View style={styles.areaBox}>
         
-        <Text style={{fontSize:14,color:'white',fontWeight:'600',marginBottom:20}}>{item.province} ( {item.count} )</Text>
+        <Text key={filteredDataProvince.key} style={{fontSize:14,color:'white',fontWeight:'600',marginBottom:20}}>{item.province} ( {item.count} )</Text>
       
         <View style={styles.btnContainer}>
         {dataBoaringHouse.map((boardingHouse, index) => {
           if (boardingHouse['province/city'] === item.province) {
             return (
-              <TouchableOpacity onPress={()=>handlePressBoardingHouse(boardingHouse.name)}  style={styles.btn} key={boardingHouse.id}>
+              <TouchableOpacity key={dataBoaringHouse.index} onPress={()=>handlePressBoardingHouse(boardingHouse.name)}  style={styles.btn}>
                 {/* <Text style={{ color: 'white', fontWeight: 'bold' }}>{boardingHouse.name}</Text> */}
                 <Image  style={{height:'30%',width:'40%'}}
                 source={require('../../assets/logos/house.png')}>
